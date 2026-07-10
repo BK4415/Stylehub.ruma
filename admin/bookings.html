@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bookings — Style Hub Admin</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="../assets/icons/icon-32.png" sizes="32x32">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/responsive.css">
+<link rel="stylesheet" href="../css/animations.css">
+<link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-body">
+<div class="admin-shell">
+  <aside class="admin-sidebar">
+    <a href="../index.html" class="brand"><img src="../assets/logo.svg" width="30" height="30" alt="Style Hub"><span>Style Hub</span></a>
+    <nav class="admin-nav">
+      <span class="nav-section-label">Overview</span>
+      <a href="index.html"><span data-icon="dashboard"></span>Dashboard</a>
+      <span class="nav-section-label">Manage</span>
+      <a href="haircuts.html"><span data-icon="scissors"></span>Haircuts</a>
+      <a href="services.html"><span data-icon="combo"></span>Services</a>
+      <a href="bookings.html" class="is-active"><span data-icon="calendar"></span>Bookings</a>
+      <a href="customers.html"><span data-icon="user"></span>Customers</a>
+      <a href="reviews.html"><span data-icon="star"></span>Reviews</a>
+      <span class="nav-section-label">System</span>
+      <a href="settings.html"><span data-icon="gear"></span>Settings</a>
+      <a href="analytics.html"><span data-icon="chart"></span>Analytics</a>
+    </nav>
+    <div class="admin-sidebar-foot">
+      <div class="admin-user-chip">
+        <div class="admin-user-avatar" data-admin-initial>A</div>
+        <div style="overflow:hidden">
+          <div style="font-size:var(--fs-xs);font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" data-admin-email>—</div>
+          <button data-logout class="muted" style="font-size:11px;">Sign out</button>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <div class="admin-main">
+    <div class="admin-topbar">
+      <h1>Bookings</h1>
+      <button class="btn btn-primary btn-sm" id="add-walkin-btn"><span data-icon="plus"></span>&nbsp;New Walk-in Booking</button>
+    </div>
+    <div class="demo-banner" id="demo-mode-notice" hidden><span data-icon="info"></span> Demo data mode — bookings created here are simulated until Firebase is connected.</div>
+
+    <div class="admin-toolbar">
+      <div class="search-box"><span data-icon="search"></span><input type="search" id="search-input" placeholder="Search by name or phone…"></div>
+      <select class="select-mini" id="status-filter">
+        <option value="">All Statuses</option>
+        <option value="pending">Pending</option>
+        <option value="completed">Completed</option>
+        <option value="cancelled">Cancelled</option>
+      </select>
+      <select class="select-mini" id="source-filter">
+        <option value="">Online + Walk-in</option>
+        <option value="online">Online Only</option>
+        <option value="walkin">Walk-in Only</option>
+      </select>
+      <input type="date" class="select-mini" id="date-filter">
+    </div>
+
+    <div class="admin-table-wrap">
+      <table class="admin-table">
+        <thead><tr><th>Customer</th><th>Style</th><th>Barber</th><th>Date / Time</th><th>Source</th><th>Paid</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody id="table-body"><tr><td colspan="8" class="text-center muted" style="padding:24px;">Loading…</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <button class="modal-close icon-btn" id="modal-close" aria-label="Close"><span data-icon="x"></span></button>
+    <h3 class="mb-5">New Walk-in Booking</h3>
+    <form id="form">
+      <div class="form-grid">
+        <div class="form-grid two-col">
+          <div class="field">
+            <label for="f-name">Customer Name</label>
+            <input type="text" id="f-name" required placeholder="Full name">
+          </div>
+          <div class="field">
+            <label for="f-phone">Phone Number</label>
+            <input type="tel" id="f-phone" required placeholder="10-digit mobile number">
+          </div>
+        </div>
+        <div class="form-grid two-col">
+          <div class="field">
+            <label for="f-style">Haircut Style</label>
+            <select id="f-style" required></select>
+          </div>
+          <div class="field">
+            <label for="f-barber">Barber</label>
+            <select id="f-barber" required></select>
+          </div>
+        </div>
+        <div class="form-grid two-col">
+          <div class="field">
+            <label for="f-date">Date</label>
+            <input type="date" id="f-date" required>
+          </div>
+          <div class="field">
+            <label for="f-time">Time</label>
+            <input type="time" id="f-time" required>
+          </div>
+        </div>
+        <div class="field">
+          <label for="f-notes">Notes</label>
+          <textarea id="f-notes" placeholder="Optional notes"></textarea>
+        </div>
+        <label class="checkbox-row"><input type="checkbox" id="f-paid"><span>Mark as paid</span></label>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block mt-5"><span>Create Walk-in Booking</span></button>
+    </form>
+  </div>
+</div>
+
+<script type="module">
+  import { requireAdminAuth, wireLogoutButtons, wireAdminIcons, fetchCollection, addItem, updateItem, formatPrice, to12h, isFirebaseReady } from "../js/admin.js";
+  import { initTheme, toast, qs, qsa, debounce } from "../js/main.js";
+
+  let bookings = [], haircuts = [], barbers = [];
+
+  function statusPill(status) {
+    const colors = { pending: "#F5B301", completed: "#4ade80", cancelled: "#ff5a5a" };
+    const c = colors[status] || "#999";
+    return `<span style="display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;text-transform:uppercase;color:${c}"><span style="width:6px;height:6px;border-radius:50%;background:${c}"></span>${status}</span>`;
+  }
+
+  function rowHTML(b) {
+    return `
+    <tr data-id="${b.id}">
+      <td>${b.customerName}<br><span class="muted" style="font-size:11px">${b.phone}</span></td>
+      <td>${b.styleName || "—"}</td>
+      <td>${b.barberName || "—"}</td>
+      <td>${b.date}<br><span class="muted" style="font-size:11px">${to12h(b.time)}</span></td>
+      <td><span class="admin-badge">${b.source === "walkin" ? "Walk-in" : "Online"}</span></td>
+      <td>
+        <label class="toggle-switch">
+          <input type="checkbox" data-toggle-paid="${b.id}" ${b.paid ? "checked" : ""}>
+          <span class="track"></span>
+        </label>
+      </td>
+      <td>${statusPill(b.status || "pending")}</td>
+      <td class="admin-row-actions">
+        ${b.status !== "completed" ? `<button class="btn-sm btn-outline" data-action="complete" data-id="${b.id}">Complete</button>` : ""}
+        ${b.status !== "cancelled" ? `<button class="btn-danger" data-action="cancel" data-id="${b.id}">Cancel</button>` : ""}
+      </td>
+    </tr>`;
+  }
+
+  function render() {
+    const term = qs("#search-input").value.trim().toLowerCase();
+    const status = qs("#status-filter").value;
+    const source = qs("#source-filter").value;
+    const date = qs("#date-filter").value;
+
+    let list = bookings.filter(b =>
+      (!term || b.customerName.toLowerCase().includes(term) || (b.phone || "").includes(term)) &&
+      (!status || b.status === status) &&
+      (!source || b.source === source) &&
+      (!date || b.date === date)
+    );
+    list.sort((a, b) => (b.date + b.time).localeCompare(a.date + a.time));
+
+    qs("#table-body").innerHTML = list.length ? list.map(rowHTML).join("") : `<tr><td colspan="8" class="text-center muted" style="padding:24px;">No bookings match these filters.</td></tr>`;
+
+    qsa("[data-action='complete']").forEach(btn => btn.addEventListener("click", () => updateStatus(btn.dataset.id, "completed")));
+    qsa("[data-action='cancel']").forEach(btn => btn.addEventListener("click", () => updateStatus(btn.dataset.id, "cancelled")));
+    qsa("[data-toggle-paid]").forEach(input => input.addEventListener("change", async () => {
+      await updateItem("bookings", input.getAttribute("data-toggle-paid"), { paid: input.checked });
+      toast(input.checked ? "Marked as paid" : "Marked as unpaid", "success");
+      await reload();
+    }));
+  }
+
+  async function updateStatus(id, status) {
+    const result = await updateItem("bookings", id, { status });
+    if (result.ok) { toast(`Booking marked ${status}`, "success"); await reload(); }
+    else toast(result.error || "Could not update booking.", "error");
+  }
+
+  async function reload() {
+    [bookings, haircuts, barbers] = await Promise.all([
+      fetchCollection("bookings", { includeHidden: true }),
+      fetchCollection("haircuts"),
+      fetchCollection("barbers")
+    ]);
+    render();
+  }
+
+  function openModal() {
+    qs("#f-style").innerHTML = haircuts.map(h => `<option value="${h.id}">${h.name} — ${formatPrice(h.price)}</option>`).join("");
+    qs("#f-barber").innerHTML = barbers.map(b => `<option value="${b.id}">${b.name}</option>`).join("");
+    qs("#form").reset();
+    qs("#f-date").value = new Date().toISOString().split("T")[0];
+    qs("#modal").classList.add("is-open");
+  }
+  function closeModal() { qs("#modal").classList.remove("is-open"); }
+
+  async function handleSave(e) {
+    e.preventDefault();
+    const style = haircuts.find(h => h.id === qs("#f-style").value);
+    const barber = barbers.find(b => b.id === qs("#f-barber").value);
+    const payload = {
+      customerName: qs("#f-name").value.trim(),
+      phone: qs("#f-phone").value.trim(),
+      styleId: style?.id, styleName: style?.name, price: style?.price, durationMin: style?.durationMin,
+      barberId: barber?.id, barberName: barber?.name,
+      date: qs("#f-date").value,
+      time: qs("#f-time").value,
+      notes: qs("#f-notes").value.trim(),
+      source: "walkin",
+      status: "pending",
+      paid: qs("#f-paid").checked
+    };
+    const result = await addItem("bookings", payload);
+    if (result.ok) { toast("Walk-in booking created", "success"); closeModal(); await reload(); }
+    else toast(result.error || "Could not create booking.", "error");
+  }
+
+  (async () => {
+    initTheme();
+    wireAdminIcons();
+    wireLogoutButtons();
+    const ok = await requireAdminAuth();
+    if (!ok) return;
+    if (!isFirebaseReady()) qs("#demo-mode-notice").hidden = false;
+    await reload();
+
+    qs("#add-walkin-btn").addEventListener("click", openModal);
+    qs("#modal-close").addEventListener("click", closeModal);
+    qs("#modal").addEventListener("click", (e) => { if (e.target.id === "modal") closeModal(); });
+    qs("#form").addEventListener("submit", handleSave);
+    qs("#search-input").addEventListener("input", debounce(render, 150));
+    qs("#status-filter").addEventListener("change", render);
+    qs("#source-filter").addEventListener("change", render);
+    qs("#date-filter").addEventListener("change", render);
+  })();
+</script>
+</body>
+</html>

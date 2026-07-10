@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard — Style Hub Admin</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="../assets/icons/icon-32.png" sizes="32x32">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/responsive.css">
+<link rel="stylesheet" href="../css/animations.css">
+<link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-body">
+<div class="admin-shell">
+  <aside class="admin-sidebar">
+    <a href="../index.html" class="brand"><img src="../assets/logo.svg" width="30" height="30" alt="Style Hub"><span>Style Hub</span></a>
+    <nav class="admin-nav">
+      <span class="nav-section-label">Overview</span>
+      <a href="index.html" class="is-active"><span data-icon="dashboard"></span>Dashboard</a>
+      <span class="nav-section-label">Manage</span>
+      <a href="haircuts.html"><span data-icon="scissors"></span>Haircuts</a>
+      <a href="services.html"><span data-icon="combo"></span>Services</a>
+      <a href="bookings.html"><span data-icon="calendar"></span>Bookings</a>
+      <a href="customers.html"><span data-icon="user"></span>Customers</a>
+      <a href="reviews.html"><span data-icon="star"></span>Reviews</a>
+      <span class="nav-section-label">System</span>
+      <a href="settings.html"><span data-icon="gear"></span>Settings</a>
+      <a href="analytics.html"><span data-icon="chart"></span>Analytics</a>
+    </nav>
+    <div class="admin-sidebar-foot">
+      <div class="admin-user-chip">
+        <div class="admin-user-avatar" data-admin-initial>A</div>
+        <div style="overflow:hidden">
+          <div style="font-size:var(--fs-xs);font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" data-admin-email>—</div>
+          <button data-logout class="muted" style="font-size:11px;">Sign out</button>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <div class="admin-main">
+    <div class="admin-topbar">
+      <h1>Dashboard</h1>
+      <a href="../index.html" class="btn btn-outline btn-sm" target="_blank">View Live Site</a>
+    </div>
+
+    <div class="demo-banner" id="demo-mode-notice" hidden><span data-icon="info"></span> Running in demo data mode — connect Firebase (firebase-config.js) to persist real data.</div>
+
+    <div class="stat-grid">
+      <div class="card stat-card"><div class="stat-icon" data-icon="calendar"></div><div class="stat-label">Today's Bookings</div><div class="stat-value" id="stat-today">0</div></div>
+      <div class="card stat-card"><div class="stat-icon" data-icon="clock"></div><div class="stat-label">Pending</div><div class="stat-value" id="stat-pending">0</div></div>
+      <div class="card stat-card"><div class="stat-icon" data-icon="check"></div><div class="stat-label">Completed</div><div class="stat-value" id="stat-completed">0</div></div>
+      <div class="card stat-card"><div class="stat-icon" data-icon="scissors"></div><div class="stat-label">Haircut Styles</div><div class="stat-value" id="stat-haircuts">0</div></div>
+      <div class="card stat-card"><div class="stat-icon" data-icon="combo"></div><div class="stat-label">Services</div><div class="stat-value" id="stat-services">0</div></div>
+      <div class="card stat-card"><div class="stat-icon" data-icon="info"></div><div class="stat-label">Revenue (Placeholder)</div><div class="stat-value" style="font-size:var(--fs-lg)">Phase 3</div></div>
+    </div>
+
+    <div class="flex-between mb-4">
+      <h3>Recent Bookings</h3>
+      <a href="bookings.html" class="btn btn-outline btn-sm">Manage All Bookings</a>
+    </div>
+    <div class="admin-table-wrap">
+      <table class="admin-table">
+        <thead><tr><th>Customer</th><th>Style</th><th>Barber</th><th>Date / Time</th><th>Source</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody id="recent-bookings-body">
+          <tr><td colspan="7" class="text-center muted" style="padding:24px;">Loading…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  import { requireAdminAuth, initDashboard, wireLogoutButtons, wireAdminIcons } from "../js/admin.js";
+  import { initTheme } from "../js/main.js";
+
+  (async () => {
+    initTheme();
+    wireAdminIcons();
+    wireLogoutButtons();
+    const ok = await requireAdminAuth();
+    if (!ok) return;
+    await initDashboard();
+  })();
+</script>
+</body>
+</html>

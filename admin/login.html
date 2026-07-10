@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Login — Style Hub</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="../assets/icons/icon-32.png" sizes="32x32">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/responsive.css">
+<link rel="stylesheet" href="../css/animations.css">
+<link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-body">
+<main style="min-height:100vh; display:flex; align-items:center; justify-content:center; padding: var(--sp-5);">
+  <div class="card animate-scaleIn" style="max-width:420px; width:100%; padding: var(--sp-8) var(--sp-7);">
+    <div class="text-center mb-6">
+      <a href="../index.html" class="brand" style="justify-content:center;"><img src="../assets/logo.svg" alt="Style Hub logo" width="40" height="40"></a>
+      <h1 class="h3 mt-4">Admin Panel</h1>
+      <p class="muted mt-2" style="font-size:var(--fs-sm)">Sign in to manage your salon</p>
+    </div>
+
+    <form id="login-form">
+      <div class="field mb-4">
+        <label for="admin-email">Email</label>
+        <input type="email" id="admin-email" required autocomplete="username" placeholder="admin@stylehub.demo">
+      </div>
+      <div class="field mb-4">
+        <label for="admin-password">Password</label>
+        <input type="password" id="admin-password" required autocomplete="current-password" placeholder="••••••••">
+      </div>
+      <p class="field-error mb-3" id="login-error" role="alert"></p>
+      <button type="submit" class="btn btn-primary btn-block" id="login-submit"><span>Sign In</span></button>
+    </form>
+
+    <p class="muted mt-5 text-center" style="font-size:11px; line-height:1.7;">
+      Demo mode (no Firebase connected): <br>
+      <strong style="color:var(--text-secondary)">admin@stylehub.demo</strong> / <strong style="color:var(--text-secondary)">StyleHub@123</strong>
+    </p>
+    <p class="text-center mt-4"><a href="../index.html" class="muted" style="font-size:var(--fs-xs)">← Back to website</a></p>
+  </div>
+</main>
+
+<script type="module">
+  import { handleLoginSubmit } from "../js/admin.js";
+  import { initTheme } from "../js/main.js";
+  initTheme();
+  document.getElementById("login-form").addEventListener("submit", handleLoginSubmit);
+</script>
+</body>
+</html>

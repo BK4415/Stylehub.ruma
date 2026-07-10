@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reviews — Style Hub Admin</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="../assets/icons/icon-32.png" sizes="32x32">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/responsive.css">
+<link rel="stylesheet" href="../css/animations.css">
+<link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-body">
+<div class="admin-shell">
+  <aside class="admin-sidebar">
+    <a href="../index.html" class="brand"><img src="../assets/logo.svg" width="30" height="30" alt="Style Hub"><span>Style Hub</span></a>
+    <nav class="admin-nav">
+      <span class="nav-section-label">Overview</span>
+      <a href="index.html"><span data-icon="dashboard"></span>Dashboard</a>
+      <span class="nav-section-label">Manage</span>
+      <a href="haircuts.html"><span data-icon="scissors"></span>Haircuts</a>
+      <a href="services.html"><span data-icon="combo"></span>Services</a>
+      <a href="bookings.html"><span data-icon="calendar"></span>Bookings</a>
+      <a href="customers.html"><span data-icon="user"></span>Customers</a>
+      <a href="reviews.html" class="is-active"><span data-icon="star"></span>Reviews</a>
+      <span class="nav-section-label">System</span>
+      <a href="settings.html"><span data-icon="gear"></span>Settings</a>
+      <a href="analytics.html"><span data-icon="chart"></span>Analytics</a>
+    </nav>
+    <div class="admin-sidebar-foot">
+      <div class="admin-user-chip">
+        <div class="admin-user-avatar" data-admin-initial>A</div>
+        <div style="overflow:hidden">
+          <div style="font-size:var(--fs-xs);font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" data-admin-email>—</div>
+          <button data-logout class="muted" style="font-size:11px;">Sign out</button>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <div class="admin-main">
+    <div class="admin-topbar"><h1>Reviews</h1></div>
+    <p class="text-secondary mb-5" style="max-width:60ch">Customer-submitted reviews will appear here once Authentication ships. Today, moderate the seeded reviews shown on the homepage.</p>
+
+    <div class="admin-table-wrap">
+      <table class="admin-table">
+        <thead><tr><th>Customer</th><th>Rating</th><th>Comment</th><th>Date</th><th>Visible</th><th>Actions</th></tr></thead>
+        <tbody id="table-body"><tr><td colspan="6" class="text-center muted" style="padding:24px;">Loading…</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  import { requireAdminAuth, wireLogoutButtons, wireAdminIcons, fetchCollection, toggleHidden, softDelete } from "../js/admin.js";
+  import { initTheme, qs, qsa, renderStars } from "../js/main.js";
+
+  let items = [];
+
+  function rowHTML(r) {
+    return `<tr data-id="${r.id}">
+      <td><strong>${r.name}</strong></td>
+      <td>${renderStars(r.rating)}</td>
+      <td class="muted" style="max-width:320px">${r.comment}</td>
+      <td>${new Date(r.createdAt).toLocaleDateString("en-IN")}</td>
+      <td><label class="toggle-switch"><input type="checkbox" data-toggle-hidden="${r.id}" ${!r.hidden ? "checked" : ""}><span class="track"></span></label></td>
+      <td class="admin-row-actions"><button class="btn-danger" data-delete="${r.id}"><span data-icon="trash"></span></button></td>
+    </tr>`;
+  }
+
+  function render() {
+    qs("#table-body").innerHTML = items.length ? items.map(rowHTML).join("") : `<tr><td colspan="6" class="text-center muted" style="padding:24px;">No reviews yet.</td></tr>`;
+    wireAdminIcons();
+    qsa("[data-delete]").forEach(btn => btn.addEventListener("click", () => softDelete("reviews", btn.getAttribute("data-delete"), reload)));
+    qsa("[data-toggle-hidden]").forEach(input => input.addEventListener("change", () => {
+      const id = input.getAttribute("data-toggle-hidden");
+      const item = items.find(i => i.id === id);
+      toggleHidden("reviews", id, !item.hidden, reload);
+    }));
+  }
+
+  async function reload() {
+    items = await fetchCollection("reviews", { includeHidden: true });
+    render();
+  }
+
+  (async () => {
+    initTheme();
+    wireAdminIcons();
+    wireLogoutButtons();
+    const ok = await requireAdminAuth();
+    if (!ok) return;
+    await reload();
+  })();
+</script>
+</body>
+</html>

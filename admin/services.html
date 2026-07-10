@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Services — Style Hub Admin</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="../assets/icons/icon-32.png" sizes="32x32">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/responsive.css">
+<link rel="stylesheet" href="../css/animations.css">
+<link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-body">
+<div class="admin-shell">
+  <aside class="admin-sidebar">
+    <a href="../index.html" class="brand"><img src="../assets/logo.svg" width="30" height="30" alt="Style Hub"><span>Style Hub</span></a>
+    <nav class="admin-nav">
+      <span class="nav-section-label">Overview</span>
+      <a href="index.html"><span data-icon="dashboard"></span>Dashboard</a>
+      <span class="nav-section-label">Manage</span>
+      <a href="haircuts.html"><span data-icon="scissors"></span>Haircuts</a>
+      <a href="services.html" class="is-active"><span data-icon="combo"></span>Services</a>
+      <a href="bookings.html"><span data-icon="calendar"></span>Bookings</a>
+      <a href="customers.html"><span data-icon="user"></span>Customers</a>
+      <a href="reviews.html"><span data-icon="star"></span>Reviews</a>
+      <span class="nav-section-label">System</span>
+      <a href="settings.html"><span data-icon="gear"></span>Settings</a>
+      <a href="analytics.html"><span data-icon="chart"></span>Analytics</a>
+    </nav>
+    <div class="admin-sidebar-foot">
+      <div class="admin-user-chip">
+        <div class="admin-user-avatar" data-admin-initial>A</div>
+        <div style="overflow:hidden">
+          <div style="font-size:var(--fs-xs);font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" data-admin-email>—</div>
+          <button data-logout class="muted" style="font-size:11px;">Sign out</button>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <div class="admin-main">
+    <div class="admin-topbar">
+      <h1>Services</h1>
+      <button class="btn btn-primary btn-sm" id="add-btn"><span data-icon="plus"></span>&nbsp;Add Service</button>
+    </div>
+    <div class="demo-banner" id="demo-mode-notice" hidden><span data-icon="info"></span> Demo data mode — changes here are simulated until Firebase is connected.</div>
+
+    <div class="admin-table-wrap">
+      <table class="admin-table">
+        <thead><tr><th>Icon</th><th>Name</th><th>Description</th><th>Price</th><th>Duration</th><th>Visible</th><th>Actions</th></tr></thead>
+        <tbody id="table-body"><tr><td colspan="7" class="text-center muted" style="padding:24px;">Loading…</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <button class="modal-close icon-btn" id="modal-close" aria-label="Close"><span data-icon="x"></span></button>
+    <h3 class="mb-5" id="modal-title">Add Service</h3>
+    <form id="form">
+      <input type="hidden" id="f-id">
+      <div class="form-grid">
+        <div class="field">
+          <label for="f-name">Service Name</label>
+          <input type="text" id="f-name" required placeholder="e.g. Beard Trim">
+        </div>
+        <div class="field">
+          <label for="f-icon">Icon</label>
+          <select id="f-icon">
+            <option value="scissors">Scissors (Haircut)</option>
+            <option value="combo">Combo (Hair + Beard)</option>
+            <option value="beard">Beard</option>
+            <option value="wash">Wash</option>
+            <option value="face">Face Clean</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="f-desc">Description</label>
+          <textarea id="f-desc" required placeholder="Short description shown to customers"></textarea>
+        </div>
+        <div class="form-grid two-col">
+          <div class="field">
+            <label for="f-price">Price (₹)</label>
+            <input type="number" id="f-price" min="0" required placeholder="249">
+          </div>
+          <div class="field">
+            <label for="f-duration">Duration (min)</label>
+            <input type="number" id="f-duration" min="5" required placeholder="30">
+          </div>
+        </div>
+        <div class="field">
+          <label for="f-order">Display Order</label>
+          <input type="number" id="f-order" min="1" placeholder="1">
+        </div>
+        <label class="checkbox-row"><input type="checkbox" id="f-hidden"><span>Hidden</span></label>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block mt-5"><span>Save Service</span></button>
+    </form>
+  </div>
+</div>
+
+<script type="module">
+  import { requireAdminAuth, wireLogoutButtons, wireAdminIcons, fetchCollection, addItem, updateItem, softDelete, toggleHidden, formatPrice, formatDuration, isFirebaseReady } from "../js/admin.js";
+  import { initTheme, toast, qs, qsa } from "../js/main.js";
+  import { icon } from "../js/icons.js";
+
+  let allItems = [];
+
+  function rowHTML(item) {
+    return `
+    <tr data-id="${item.id}">
+      <td><div class="service-icon" style="width:38px;height:38px">${icon(item.icon || "scissors")}</div></td>
+      <td><strong>${item.name}</strong></td>
+      <td class="muted" style="max-width:280px">${item.description}</td>
+      <td>${formatPrice(item.price)}</td>
+      <td>${formatDuration(item.durationMin)}</td>
+      <td>
+        <label class="toggle-switch">
+          <input type="checkbox" data-toggle-hidden="${item.id}" ${!item.hidden ? "checked" : ""}>
+          <span class="track"></span>
+        </label>
+      </td>
+      <td class="admin-row-actions">
+        <button class="btn-sm btn-outline" data-edit="${item.id}"><span data-icon="edit"></span></button>
+        <button class="btn-danger" data-delete="${item.id}"><span data-icon="trash"></span></button>
+      </td>
+    </tr>`;
+  }
+
+  function render() {
+    qs("#table-body").innerHTML = allItems.length ? allItems.map(rowHTML).join("") : `<tr><td colspan="7" class="text-center muted" style="padding:24px;">No services yet.</td></tr>`;
+    wireAdminIcons();
+    qsa("[data-edit]").forEach(btn => btn.addEventListener("click", () => openModal(btn.getAttribute("data-edit"))));
+    qsa("[data-delete]").forEach(btn => btn.addEventListener("click", () => softDelete("services", btn.getAttribute("data-delete"), reload)));
+    qsa("[data-toggle-hidden]").forEach(input => input.addEventListener("change", () => {
+      const id = input.getAttribute("data-toggle-hidden");
+      const item = allItems.find(i => i.id === id);
+      toggleHidden("services", id, !item.hidden, reload);
+    }));
+  }
+
+  async function reload() {
+    allItems = await fetchCollection("services", { includeHidden: true });
+    render();
+  }
+
+  function openModal(id) {
+    const item = id ? allItems.find(i => i.id === id) : null;
+    qs("#modal-title").textContent = item ? "Edit Service" : "Add Service";
+    qs("#f-id").value = item?.id || "";
+    qs("#f-name").value = item?.name || "";
+    qs("#f-icon").value = item?.icon || "scissors";
+    qs("#f-desc").value = item?.description || "";
+    qs("#f-price").value = item?.price ?? "";
+    qs("#f-duration").value = item?.durationMin ?? "";
+    qs("#f-order").value = item?.order ?? (allItems.length + 1);
+    qs("#f-hidden").checked = Boolean(item?.hidden);
+    qs("#modal").classList.add("is-open");
+  }
+  function closeModal() { qs("#modal").classList.remove("is-open"); }
+
+  async function handleSave(e) {
+    e.preventDefault();
+    const id = qs("#f-id").value;
+    const payload = {
+      name: qs("#f-name").value.trim(),
+      icon: qs("#f-icon").value,
+      description: qs("#f-desc").value.trim(),
+      price: Number(qs("#f-price").value),
+      durationMin: Number(qs("#f-duration").value),
+      order: Number(qs("#f-order").value) || 1,
+      hidden: qs("#f-hidden").checked
+    };
+    const result = id ? await updateItem("services", id, payload) : await addItem("services", payload);
+    if (result.ok) {
+      toast(id ? "Service updated" : "Service added", "success");
+      closeModal();
+      await reload();
+    } else {
+      toast(result.error || "Could not save service.", "error");
+    }
+  }
+
+  (async () => {
+    initTheme();
+    wireAdminIcons();
+    wireLogoutButtons();
+    const ok = await requireAdminAuth();
+    if (!ok) return;
+    if (!isFirebaseReady()) qs("#demo-mode-notice").hidden = false;
+    await reload();
+    qs("#add-btn").addEventListener("click", () => openModal(null));
+    qs("#modal-close").addEventListener("click", closeModal);
+    qs("#modal").addEventListener("click", (e) => { if (e.target.id === "modal") closeModal(); });
+    qs("#form").addEventListener("submit", handleSave);
+  })();
+</script>
+</body>
+</html>

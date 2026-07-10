@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Settings — Style Hub Admin</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="../assets/icons/icon-32.png" sizes="32x32">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/responsive.css">
+<link rel="stylesheet" href="../css/animations.css">
+<link rel="stylesheet" href="css/admin.css">
+<style>.settings-section{padding:var(--sp-6); margin-bottom:var(--sp-5);}</style>
+</head>
+<body class="admin-body">
+<div class="admin-shell">
+  <aside class="admin-sidebar">
+    <a href="../index.html" class="brand"><img src="../assets/logo.svg" width="30" height="30" alt="Style Hub"><span>Style Hub</span></a>
+    <nav class="admin-nav">
+      <span class="nav-section-label">Overview</span>
+      <a href="index.html"><span data-icon="dashboard"></span>Dashboard</a>
+      <span class="nav-section-label">Manage</span>
+      <a href="haircuts.html"><span data-icon="scissors"></span>Haircuts</a>
+      <a href="services.html"><span data-icon="combo"></span>Services</a>
+      <a href="bookings.html"><span data-icon="calendar"></span>Bookings</a>
+      <a href="customers.html"><span data-icon="user"></span>Customers</a>
+      <a href="reviews.html"><span data-icon="star"></span>Reviews</a>
+      <span class="nav-section-label">System</span>
+      <a href="settings.html" class="is-active"><span data-icon="gear"></span>Settings</a>
+      <a href="analytics.html"><span data-icon="chart"></span>Analytics</a>
+    </nav>
+    <div class="admin-sidebar-foot">
+      <div class="admin-user-chip">
+        <div class="admin-user-avatar" data-admin-initial>A</div>
+        <div style="overflow:hidden">
+          <div style="font-size:var(--fs-xs);font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" data-admin-email>—</div>
+          <button data-logout class="muted" style="font-size:11px;">Sign out</button>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <div class="admin-main">
+    <div class="admin-topbar"><h1>Settings</h1></div>
+    <div class="demo-banner" id="demo-mode-notice" hidden><span data-icon="info"></span> Demo data mode — settings changes won't persist after refresh until Firebase is connected.</div>
+
+    <form id="settings-form">
+      <div class="card settings-section">
+        <h3 class="mb-4">Brand</h3>
+        <div class="form-grid two-col">
+          <div class="field"><label for="s-name">Salon Name</label><input type="text" id="s-name"></div>
+          <div class="field"><label for="s-tagline">Tagline</label><input type="text" id="s-tagline"></div>
+        </div>
+        <div class="field mt-4"><label for="s-accent">Theme Accent Color</label><input type="color" id="s-accent" style="height:44px;padding:4px;"></div>
+      </div>
+
+      <div class="card settings-section">
+        <h3 class="mb-4">Announcement Banner</h3>
+        <label class="checkbox-row mb-3"><input type="checkbox" id="s-announce-enabled"><span>Show announcement banner</span></label>
+        <div class="field"><label for="s-announce">Announcement Text</label><input type="text" id="s-announce"></div>
+      </div>
+
+      <div class="card settings-section">
+        <h3 class="mb-4">Contact Details</h3>
+        <div class="form-grid two-col">
+          <div class="field"><label for="s-phone">Phone</label><input type="text" id="s-phone"></div>
+          <div class="field"><label for="s-whatsapp">WhatsApp (digits only, with country code)</label><input type="text" id="s-whatsapp"></div>
+          <div class="field"><label for="s-email">Email</label><input type="email" id="s-email"></div>
+          <div class="field"><label for="s-address">Address</label><input type="text" id="s-address"></div>
+        </div>
+        <div class="field mt-4"><label for="s-maps">Google Maps Embed URL</label><input type="text" id="s-maps"></div>
+      </div>
+
+      <div class="card settings-section">
+        <h3 class="mb-4">Social Links</h3>
+        <div class="form-grid two-col">
+          <div class="field"><label for="s-instagram">Instagram</label><input type="text" id="s-instagram"></div>
+          <div class="field"><label for="s-facebook">Facebook</label><input type="text" id="s-facebook"></div>
+          <div class="field"><label for="s-youtube">YouTube</label><input type="text" id="s-youtube"></div>
+          <div class="field"><label for="s-whatsapp-link">WhatsApp Link</label><input type="text" id="s-whatsapp-link"></div>
+        </div>
+      </div>
+
+      <div class="card settings-section">
+        <h3 class="mb-4">Opening Hours &amp; Booking Slots</h3>
+        <div id="hours-editor" style="display:flex; flex-direction:column; gap:10px;"></div>
+        <div class="field mt-4" style="max-width:220px;"><label for="s-slot">Slot Duration (minutes)</label><input type="number" id="s-slot" min="10" step="5"></div>
+      </div>
+
+      <div class="card settings-section">
+        <h3 class="mb-4">Hairstyle Disclaimer</h3>
+        <div class="field"><textarea id="s-disclaimer" rows="6"></textarea></div>
+      </div>
+
+      <button type="submit" class="btn btn-primary" id="save-btn"><span>Save Settings</span></button>
+    </form>
+  </div>
+</div>
+
+<script type="module">
+  import { requireAdminAuth, wireLogoutButtons, wireAdminIcons, isFirebaseReady } from "../js/admin.js";
+  import { fetchSettings, updateSettings } from "../js/firebase.js";
+  import { initTheme, toast, qs } from "../js/main.js";
+
+  const DAY_NAMES = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
+
+  function renderHoursEditor(hours) {
+    qs("#hours-editor").innerHTML = DAY_NAMES.map(day => {
+      const h = hours.find(x => x.day === day) || { day, open: "10:00", close: "20:00", closed: false };
+      return `
+      <div class="flex gap-3" style="align-items:center; flex-wrap:wrap;" data-day-row="${day}">
+        <strong style="width:110px;font-size:var(--fs-sm)">${day}</strong>
+        <input type="time" class="select-mini" data-hour-open value="${h.open}" ${h.closed ? "disabled" : ""}>
+        <span class="muted">to</span>
+        <input type="time" class="select-mini" data-hour-close value="${h.close}" ${h.closed ? "disabled" : ""}>
+        <label class="checkbox-row" style="margin-left:auto"><input type="checkbox" data-hour-closed ${h.closed ? "checked" : ""}><span style="font-size:var(--fs-xs)">Closed</span></label>
+      </div>`;
+    }).join("");
+
+    document.querySelectorAll("[data-hour-closed]").forEach(cb => {
+      cb.addEventListener("change", (e) => {
+        const row = e.target.closest("[data-day-row]");
+        row.querySelectorAll("input[type=time]").forEach(inp => inp.disabled = e.target.checked);
+      });
+    });
+  }
+
+  function collectHours() {
+    return [...document.querySelectorAll("[data-day-row]")].map(row => ({
+      day: row.getAttribute("data-day-row"),
+      open: row.querySelector("[data-hour-open]").value,
+      close: row.querySelector("[data-hour-close]").value,
+      closed: row.querySelector("[data-hour-closed]").checked
+    }));
+  }
+
+  async function populateForm() {
+    const s = await fetchSettings();
+    qs("#s-name").value = s.salonName || "";
+    qs("#s-tagline").value = s.tagline || "";
+    qs("#s-accent").value = s.themeAccent || "#F5B301";
+    qs("#s-announce-enabled").checked = Boolean(s.announcementEnabled);
+    qs("#s-announce").value = s.announcement || "";
+    qs("#s-phone").value = s.phone || "";
+    qs("#s-whatsapp").value = s.whatsapp || "";
+    qs("#s-email").value = s.email || "";
+    qs("#s-address").value = s.address || "";
+    qs("#s-maps").value = s.mapsEmbedUrl || "";
+    qs("#s-instagram").value = s.socials?.instagram || "";
+    qs("#s-facebook").value = s.socials?.facebook || "";
+    qs("#s-youtube").value = s.socials?.youtube || "";
+    qs("#s-whatsapp-link").value = s.socials?.whatsapp || "";
+    qs("#s-slot").value = s.slotDurationMinutes || 30;
+    qs("#s-disclaimer").value = s.disclaimerText || "";
+    renderHoursEditor(s.openingHours || []);
+  }
+
+  async function handleSave(e) {
+    e.preventDefault();
+    const btn = qs("#save-btn");
+    btn.disabled = true;
+    const payload = {
+      salonName: qs("#s-name").value.trim(),
+      tagline: qs("#s-tagline").value.trim(),
+      themeAccent: qs("#s-accent").value,
+      announcementEnabled: qs("#s-announce-enabled").checked,
+      announcement: qs("#s-announce").value.trim(),
+      phone: qs("#s-phone").value.trim(),
+      whatsapp: qs("#s-whatsapp").value.trim(),
+      email: qs("#s-email").value.trim(),
+      address: qs("#s-address").value.trim(),
+      mapsEmbedUrl: qs("#s-maps").value.trim(),
+      socials: {
+        instagram: qs("#s-instagram").value.trim(),
+        facebook: qs("#s-facebook").value.trim(),
+        youtube: qs("#s-youtube").value.trim(),
+        whatsapp: qs("#s-whatsapp-link").value.trim()
+      },
+      openingHours: collectHours(),
+      slotDurationMinutes: Number(qs("#s-slot").value) || 30,
+      disclaimerText: qs("#s-disclaimer").value.trim()
+    };
+    const result = await updateSettings(payload);
+    btn.disabled = false;
+    if (result.ok) toast(result.demo ? "Saved locally (demo mode)" : "Settings saved", "success");
+    else toast(result.error || "Could not save settings.", "error");
+  }
+
+  (async () => {
+    initTheme();
+    wireAdminIcons();
+    wireLogoutButtons();
+    const ok = await requireAdminAuth();
+    if (!ok) return;
+    if (!isFirebaseReady()) qs("#demo-mode-notice").hidden = false;
+    await populateForm();
+    qs("#settings-form").addEventListener("submit", handleSave);
+  })();
+</script>
+</body>
+</html>
