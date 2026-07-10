@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact Us — Style Hub</title>
+<meta name="description" content="Get in touch with Style Hub — call, WhatsApp, or visit us. Opening hours and location inside.">
+<meta name="theme-color" content="#000000">
+<meta property="og:title" content="Contact Us — Style Hub">
+<meta property="og:description" content="Call, WhatsApp, or visit Style Hub. Opening hours and location inside.">
+<meta property="og:image" content="assets/images/hero-banner.jpg">
+<link rel="icon" href="assets/icons/icon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/responsive.css">
+<link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to content</a>
+<div class="announce-bar" data-announcement hidden></div>
+
+<header class="navbar">
+  <div class="container">
+    <a href="index.html" class="brand"><img src="assets/logo.svg" alt="Style Hub logo" width="34" height="34"><span>Style Hub</span></a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="index.html">Home</a>
+      <a href="gallery.html">Haircuts</a>
+      <a href="services.html">Services</a>
+      <a href="booking.html">Book Now</a>
+      <a href="favorites.html">Favorites</a>
+      <a href="contact.html" aria-current="page">Contact</a>
+      <a href="about.html">About</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="theme-toggle" aria-label="Switch to light mode"></button>
+      <a href="favorites.html" class="icon-btn" aria-label="View favorites" id="nav-fav-btn"></a>
+      <a href="booking.html" class="btn btn-primary btn-sm">Book Appointment</a>
+      <button class="nav-burger" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="mobile-panel">
+  <a href="index.html">Home</a>
+  <a href="gallery.html">Haircuts</a>
+  <a href="services.html">Services</a>
+  <a href="booking.html">Book Now</a>
+  <a href="favorites.html">Favorites</a>
+  <a href="contact.html">Contact</a>
+  <a href="about.html">About</a>
+  <a href="admin/login.html" style="font-size:1rem;color:var(--text-muted)">Admin Login</a>
+</div>
+
+<main id="main">
+  <section class="section" style="padding-top:calc(var(--nav-h) + 48px)">
+    <div class="container">
+      <div class="section-head section-head--center" data-reveal="up">
+        <span class="eyebrow">We'd Love To See You</span>
+        <h1 class="h2">Contact Us</h1>
+        <span class="razor"></span>
+      </div>
+
+      <div class="grid grid-3 mb-7" data-reveal-group>
+        <a data-field="phone-href" class="card text-center" style="padding: var(--sp-6);">
+          <div class="service-icon" style="margin-inline:auto" data-icon="phone"></div>
+          <h4 class="mt-4">Call Us</h4>
+          <p class="text-secondary mt-2" data-field="phone">+91 98765 43210</p>
+        </a>
+        <a data-field="whatsapp-href" target="_blank" rel="noopener" class="card text-center" style="padding: var(--sp-6);">
+          <div class="service-icon" style="margin-inline:auto" data-icon="whatsapp"></div>
+          <h4 class="mt-4">WhatsApp</h4>
+          <p class="text-secondary mt-2">Chat with us instantly</p>
+        </a>
+        <a data-field="email-href" class="card text-center" style="padding: var(--sp-6);">
+          <div class="service-icon" style="margin-inline:auto" data-icon="info"></div>
+          <h4 class="mt-4">Email</h4>
+          <p class="text-secondary mt-2" data-field="email">hello@stylehub.example</p>
+        </a>
+      </div>
+
+      <div class="grid grid-2" style="align-items:start; gap: var(--sp-7);">
+        <div data-reveal="left">
+          <h3 class="mb-4">Opening Hours</h3>
+          <ul class="card" style="padding: var(--sp-6); display:flex; flex-direction:column; gap:10px;" data-hours></ul>
+
+          <h3 class="mt-6 mb-4">Follow Us</h3>
+          <div class="footer-social" style="gap: var(--sp-3)">
+            <a href="#" data-social="instagram" aria-label="Instagram" target="_blank" rel="noopener" style="border-color:var(--border-glass)"></a>
+            <a href="#" data-social="facebook" aria-label="Facebook" target="_blank" rel="noopener" style="border-color:var(--border-glass)"></a>
+            <a href="#" data-social="youtube" aria-label="YouTube" target="_blank" rel="noopener" style="border-color:var(--border-glass)"></a>
+            <a href="#" data-social="whatsapp" aria-label="WhatsApp" target="_blank" rel="noopener" style="border-color:var(--border-glass)"></a>
+          </div>
+        </div>
+        <div data-reveal="right">
+          <h3 class="mb-4">Find Us</h3>
+          <div class="card" style="overflow:hidden; border-radius:var(--r-lg);">
+            <iframe data-field="maps-embed" title="Style Hub location map" width="100%" height="340" style="border:0;display:block" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+          <p class="text-secondary mt-4" data-field="address">Loading address…</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="brand"><img src="assets/logo.svg" alt="Style Hub logo" width="36" height="36" style="height:36px;width:auto"><span style="color:#fff">Style Hub</span></a>
+        <p data-field="tagline">Premium Grooming, Redefined</p>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <a href="gallery.html">Haircuts</a>
+        <a href="services.html">Services</a>
+        <a href="booking.html">Book Appointment</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="about.html">About Us</a>
+        <a href="faq.html">FAQ</a>
+        <a href="admin/login.html">Admin Login</a>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <a href="privacy-policy.html">Privacy Policy</a>
+        <a href="terms.html">Terms &amp; Conditions</a>
+        <a href="disclaimer.html">Disclaimer</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span data-year></span> Style Hub. All rights reserved.</span>
+    </div>
+  </div>
+</footer>
+<button class="back-to-top" aria-label="Back to top"></button>
+
+<script type="module">
+  import { initLayout } from "./js/main.js";
+  initLayout();
+</script>
+</body>
+</html>

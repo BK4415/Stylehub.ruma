@@ -1,0 +1,95 @@
+/**
+ * STYLE HUB — FIRESTORE SECURITY RULES (EXAMPLE)
+ * ------------------------------------------------------------------
+ * Deploy with: firebase deploy --only firestore:rules
+ *
+ * Phase 1 model: any signed-in user with a `role` of "admin" or
+ * "superadmin" on their /users/{uid} document can manage content.
+ * Public (unauthenticated) visitors can read published content and
+ * create bookings/reviews. Phase 2 will extend this with a "staff"
+ * role scoped to only their own assigned bookings — the isAdmin()
+ * helper below is written so that extension only adds new helper
+ * functions, it doesn't need to rewrite existing rules.
+ * ------------------------------------------------------------------
+ */
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function userRole() {
+      return isSignedIn()
+        ? get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role
+        : null;
+    }
+
+    function isAdmin() {
+      return userRole() == "admin" || userRole() == "superadmin";
+    }
+
+    function isSuperAdmin() {
+      return userRole() == "superadmin";
+    }
+
+    function isStaff() {
+      return userRole() == "staff";
+    }
+
+    // ---------------- Public, CMS-editable content ----------------
+    // Anyone can read; only admins can write.
+    match /haircuts/{docId}   { allow read: if true; allow write: if isAdmin(); }
+    match /services/{docId}   { allow read: if true; allow write: if isAdmin(); }
+    match /barbers/{docId}    { allow read: if true; allow write: if isAdmin(); }
+    match /offers/{docId}     { allow read: if true; allow write: if isAdmin(); }
+    match /settings/{docId}   { allow read: if true; allow write: if isAdmin(); }
+
+    // ---------------- Reviews ----------------
+    // Public read. Signed-in users can create their own review.
+    // Only admins can hide/delete (moderation).
+    match /reviews/{docId} {
+      allow read: if true;
+      allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
+      allow update, delete: if isAdmin();
+    }
+
+    // ---------------- Bookings ----------------
+    // Guests may NOT create bookings directly — the client requires
+    // sign-in + verified email before writing here (enforced in the
+    // app; this rule adds a server-side backstop).
+    match /bookings/{docId} {
+      allow create: if isAdmin()
+        || (isSignedIn() && request.auth.token.email_verified == true
+            && request.resource.data.customerId == request.auth.uid);
+      allow read: if isAdmin()
+        || (isSignedIn() && resource.data.customerId == request.auth.uid)
+        || (isStaff() && resource.data.barberId == request.auth.uid);
+      allow update: if isAdmin()
+        || (isStaff() && resource.data.barberId == request.auth.uid)
+        || (isSignedIn() && resource.data.customerId == request.auth.uid
+            && request.resource.data.status in ["cancelled", "pending"]);
+      allow delete: if isSuperAdmin();
+    }
+
+    // ---------------- Favorites ----------------
+    // A user can only read/write their own favorites document.
+    match /favorites/{uid} {
+      allow read, write: if isSignedIn() && request.auth.uid == uid;
+    }
+
+    // ---------------- Users ----------------
+    // Users can read/update their own profile. Only super admins can
+    // change roles or delete accounts.
+    match /users/{uid} {
+      allow read: if isSignedIn() && (request.auth.uid == uid || isAdmin());
+      allow create: if isSignedIn() && request.auth.uid == uid;
+      allow update: if isSignedIn() && request.auth.uid == uid
+        && request.resource.data.role == resource.data.role; // can't self-promote
+      allow update: if isSuperAdmin();
+      allow delete: if isSuperAdmin();
+    }
+  }
+}

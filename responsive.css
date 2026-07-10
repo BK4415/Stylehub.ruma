@@ -1,0 +1,56 @@
+/* ==========================================================================
+   STYLE HUB — RESPONSIVE
+   Mobile-first base is in style.css; this file layers breakpoint overrides.
+   Breakpoints: >=1200 desktop, >=768 tablet, <768 mobile
+   ========================================================================== */
+
+/* --------------------------- Base / Mobile (<768px) already assumed --------------------------- */
+.nav-links{ display:none; }
+.nav-burger{ display:grid; }
+
+.grid-2, .grid-3, .grid-4{ grid-template-columns: 1fr; }
+.hero-content h1{ max-width: none; }
+.footer-grid{ grid-template-columns: 1fr; gap: var(--sp-6); }
+.form-grid.two-col{ grid-template-columns: 1fr; }
+
+/* --------------------------- Tablet (>=600px) --------------------------- */
+@media (min-width: 600px){
+  .grid-2{ grid-template-columns: repeat(2, 1fr); }
+  .grid-3{ grid-template-columns: repeat(2, 1fr); }
+  .grid-4{ grid-template-columns: repeat(2, 1fr); }
+}
+
+/* --------------------------- Tablet (>=768px) --------------------------- */
+@media (min-width: 768px){
+  .nav-links{ display:flex; }
+  .nav-burger{ display:none; }
+  .mobile-panel{ display:none; }
+
+  .form-grid.two-col{ grid-template-columns: 1fr 1fr; }
+  .footer-grid{ grid-template-columns: 1.4fr 1fr 1fr; }
+}
+
+/* --------------------------- Desktop (>=1024px) --------------------------- */
+@media (min-width: 1024px){
+  .grid-3{ grid-template-columns: repeat(3, 1fr); }
+  .grid-4{ grid-template-columns: repeat(4, 1fr); }
+  .footer-grid{ grid-template-columns: 1.4fr 1fr 1fr 1fr; }
+}
+
+/* --------------------------- Large Desktop (>=1240px) --------------------------- */
+@media (min-width: 1240px){
+  :root{ --fs-4xl: clamp(3.2rem, 5vw, 5.25rem); }
+}
+
+/* --------------------------- Small phones (<380px) tightening --------------------------- */
+@media (max-width: 380px){
+  .container{ padding-inline: var(--sp-4); }
+  .hero-cta{ flex-direction:column; align-items:stretch; }
+  .btn{ text-align:center; }
+  .nav-actions > a.btn{ display:none; }
+}
+
+/* --------------------------- Print --------------------------- */
+@media print{
+  .navbar, .back-to-top, .mobile-panel, .toast-stack, .announce-bar{ display:none !important; }
+}

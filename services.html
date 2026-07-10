@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Services &amp; Pricing — Style Hub</title>
+<meta name="description" content="Explore Style Hub's grooming services — haircuts, beard trims, hair wash, and face clean-up — with transparent pricing and duration.">
+<meta name="theme-color" content="#000000">
+<meta property="og:title" content="Services & Pricing — Style Hub">
+<meta property="og:description" content="Transparent pricing for every Style Hub service.">
+<meta property="og:image" content="assets/images/hero-banner.jpg">
+<link rel="icon" href="assets/icons/icon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/responsive.css">
+<link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to content</a>
+<div class="announce-bar" data-announcement hidden></div>
+
+<header class="navbar">
+  <div class="container">
+    <a href="index.html" class="brand"><img src="assets/logo.svg" alt="Style Hub logo" width="34" height="34"><span>Style Hub</span></a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="index.html">Home</a>
+      <a href="gallery.html">Haircuts</a>
+      <a href="services.html" aria-current="page">Services</a>
+      <a href="booking.html">Book Now</a>
+      <a href="favorites.html">Favorites</a>
+      <a href="contact.html">Contact</a>
+      <a href="about.html">About</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="theme-toggle" aria-label="Switch to light mode"></button>
+      <a href="favorites.html" class="icon-btn" aria-label="View favorites" id="nav-fav-btn"></a>
+      <a href="booking.html" class="btn btn-primary btn-sm">Book Appointment</a>
+      <button class="nav-burger" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="mobile-panel">
+  <a href="index.html">Home</a>
+  <a href="gallery.html">Haircuts</a>
+  <a href="services.html">Services</a>
+  <a href="booking.html">Book Now</a>
+  <a href="favorites.html">Favorites</a>
+  <a href="contact.html">Contact</a>
+  <a href="about.html">About</a>
+  <a href="admin/login.html" style="font-size:1rem;color:var(--text-muted)">Admin Login</a>
+</div>
+
+<main id="main">
+  <section class="section" style="padding-top:calc(var(--nav-h) + 48px)">
+    <div class="container">
+      <div class="section-head section-head--center" data-reveal="up">
+        <span class="eyebrow">Transparent Pricing</span>
+        <h1 class="h2">Our Services</h1>
+        <span class="razor"></span>
+        <p class="lead mt-4">No surprises at the counter — every service, priced and timed upfront.</p>
+      </div>
+      <div class="grid grid-3" id="services-grid" data-reveal-group></div>
+    </div>
+  </section>
+
+  <section class="section section--tight" style="background:var(--bg-surface)">
+    <div class="container text-center" data-reveal="up">
+      <h2>Not sure which service is right for you?</h2>
+      <p class="lead mt-3" style="margin-inline:auto">Our barbers are happy to recommend the best combination during your visit.</p>
+      <a href="booking.html" class="btn btn-primary mt-5">Book an Appointment</a>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="brand"><img src="assets/logo.svg" alt="Style Hub logo" width="36" height="36" style="height:36px;width:auto"><span style="color:#fff">Style Hub</span></a>
+        <p data-field="tagline">Premium Grooming, Redefined</p>
+        <div class="footer-social">
+          <a href="#" data-social="instagram" aria-label="Instagram" target="_blank" rel="noopener"></a>
+          <a href="#" data-social="facebook" aria-label="Facebook" target="_blank" rel="noopener"></a>
+          <a href="#" data-social="youtube" aria-label="YouTube" target="_blank" rel="noopener"></a>
+          <a href="#" data-social="whatsapp" aria-label="WhatsApp" target="_blank" rel="noopener"></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <a href="gallery.html">Haircuts</a>
+        <a href="services.html">Services</a>
+        <a href="booking.html">Book Appointment</a>
+        <a href="favorites.html">Favorites</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="about.html">About Us</a>
+        <a href="contact.html">Contact</a>
+        <a href="faq.html">FAQ</a>
+        <a href="admin/login.html">Admin Login</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <a data-field="phone-href"><span data-field="phone">+91 98765 43210</span></a>
+        <a data-field="email-href"><span data-field="email">hello@stylehub.example</span></a>
+        <span style="display:block;padding-block:6px;font-size:var(--fs-sm);color:rgba(255,255,255,0.55)" data-field="address">Address</span>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span data-year></span> Style Hub. All rights reserved.</span>
+      <span><a href="privacy-policy.html">Privacy</a> &middot; <a href="terms.html">Terms</a> &middot; <a href="disclaimer.html">Disclaimer</a> &middot; <a href="cookie-policy.html">Cookies</a></span>
+    </div>
+  </div>
+</footer>
+<button class="back-to-top" aria-label="Back to top"></button>
+
+<script type="module">
+  import { initLayout, fetchCollection, qs } from "./js/main.js";
+  import { serviceCardHTML, skeletonCards, errorState } from "./js/render.js";
+
+  const grid = qs("#services-grid");
+  grid.innerHTML = skeletonCards(5);
+
+  initLayout().then(async () => {
+    try {
+      const services = await fetchCollection("services");
+      grid.innerHTML = services.sort((a,b) => (a.order||0)-(b.order||0)).map(serviceCardHTML).join("");
+    } catch {
+      grid.innerHTML = errorState();
+    }
+  });
+</script>
+</body>
+</html>

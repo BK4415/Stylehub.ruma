@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Style Hub — Premium Men's Salon &amp; Haircut Booking</title>
+<meta name="description" content="Style Hub is a premium men's salon. Browse haircut styles, view services and prices, and book your next appointment online in seconds.">
+<meta name="theme-color" content="#000000">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Style Hub — Premium Men's Salon & Haircut Booking">
+<meta property="og:description" content="Browse haircut styles, view services and prices, and book your next appointment online in seconds.">
+<meta property="og:image" content="assets/images/hero-banner.jpg">
+<meta property="og:url" content="https://stylehub.example/">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Style Hub — Premium Men's Salon">
+<meta name="twitter:description" content="Browse haircut styles, view services and prices, and book your next appointment online in seconds.">
+<meta name="twitter:image" content="assets/images/hero-banner.jpg">
+
+<link rel="icon" href="assets/icons/icon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<link rel="canonical" href="https://stylehub.example/">
+
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/responsive.css">
+<link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to content</a>
+<div class="announce-bar" data-announcement hidden></div>
+
+<header class="navbar">
+  <div class="container">
+    <a href="index.html" class="brand"><img src="assets/logo.svg" alt="Style Hub logo" width="34" height="34"><span>Style Hub</span></a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="index.html" aria-current="page">Home</a>
+      <a href="gallery.html">Haircuts</a>
+      <a href="services.html">Services</a>
+      <a href="booking.html">Book Now</a>
+      <a href="favorites.html">Favorites</a>
+      <a href="contact.html">Contact</a>
+      <a href="about.html">About</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="theme-toggle" aria-label="Switch to light mode"></button>
+      <a href="favorites.html" class="icon-btn" aria-label="View favorites" id="nav-fav-btn"></a>
+      <a href="booking.html" class="btn btn-primary btn-sm">Book Appointment</a>
+      <button class="nav-burger" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-panel">
+  <a href="index.html">Home</a>
+  <a href="gallery.html">Haircuts</a>
+  <a href="services.html">Services</a>
+  <a href="booking.html">Book Now</a>
+  <a href="favorites.html">Favorites</a>
+  <a href="contact.html">Contact</a>
+  <a href="about.html">About</a>
+  <a href="admin/login.html" style="font-size:1rem;color:var(--text-muted)">Admin Login</a>
+</div>
+
+<main id="main">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-media">
+      <img src="assets/images/hero-banner.jpg" alt="Style Hub salon interior" width="1600" height="900">
+    </div>
+    <div class="container hero-content">
+      <span class="eyebrow">Men's Grooming, Elevated</span>
+      <h1 data-reveal="up">Precision Cuts. Modern Craft.</h1>
+      <p class="lead" data-reveal="up">Book your next haircut with Assam's most premium men's salon experience — sharp fades, clean beards, zero compromise.</p>
+      <div class="hero-cta" data-reveal="up">
+        <a href="booking.html" class="btn btn-primary">Book Appointment</a>
+        <a href="gallery.html" class="btn btn-outline">Explore Haircuts</a>
+      </div>
+    </div>
+    <div class="hero-scroll"><span>Scroll</span><span class="dot-line"></span></div>
+  </section>
+
+  <!-- FEATURED HAIRCUTS -->
+  <section class="section" id="featured">
+    <div class="container">
+      <div class="section-head" data-reveal="up">
+        <span class="eyebrow">Handpicked</span>
+        <h2>Featured Haircuts</h2>
+        <span class="razor"></span>
+        <p class="lead mt-4">The styles our barbers are proudest of right now.</p>
+      </div>
+      <div class="grid grid-4" data-reveal-group id="featured-grid"></div>
+    </div>
+  </section>
+
+  <!-- TRENDING STYLES -->
+  <section class="section section--tight" style="background:var(--bg-surface)">
+    <div class="container">
+      <div class="section-head" data-reveal="up">
+        <span class="eyebrow">Right Now</span>
+        <h2>Trending Styles</h2>
+        <span class="razor"></span>
+      </div>
+      <div class="grid grid-4" data-reveal-group id="trending-grid"></div>
+    </div>
+  </section>
+
+  <!-- TODAY'S POPULAR CUTS -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head" data-reveal="up">
+        <span class="eyebrow">Most Booked</span>
+        <h2>Today's Popular Cuts</h2>
+        <span class="razor"></span>
+      </div>
+      <div class="grid grid-4" data-reveal-group id="popular-grid"></div>
+    </div>
+  </section>
+
+  <!-- CUSTOMER REVIEWS -->
+  <section class="section section--tight" style="background:var(--bg-surface)">
+    <div class="container">
+      <div class="section-head section-head--center" data-reveal="up">
+        <span class="eyebrow">Word On The Street</span>
+        <h2>Customer Reviews</h2>
+        <span class="razor"></span>
+      </div>
+      <div class="grid grid-3" data-reveal-group id="reviews-grid"></div>
+    </div>
+  </section>
+
+  <!-- OPENING HOURS + LOCATION -->
+  <section class="section">
+    <div class="container grid grid-2" style="align-items:start;gap:var(--sp-7)">
+      <div data-reveal="left">
+        <span class="eyebrow">Visit Us</span>
+        <h2>Opening Hours</h2>
+        <span class="razor"></span>
+        <ul class="card" style="padding: var(--sp-6); margin-top:var(--sp-5); display:flex; flex-direction:column; gap:10px;" data-hours></ul>
+      </div>
+      <div data-reveal="right">
+        <span class="eyebrow">Find Us</span>
+        <h2>Location</h2>
+        <span class="razor"></span>
+        <div class="card mt-5" style="overflow:hidden; border-radius:var(--r-lg);">
+          <iframe data-field="maps-embed" title="Style Hub location map" width="100%" height="300" style="border:0;display:block" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+        <p class="text-secondary mt-4" data-field="address">Loading address…</p>
+        <a class="btn btn-outline btn-sm mt-3" data-field="whatsapp-href" target="_blank" rel="noopener">Chat on WhatsApp</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="brand"><img src="assets/logo.svg" alt="Style Hub logo" width="36" height="36" style="height:36px;width:auto"><span style="color:#fff">Style Hub</span></a>
+        <p data-field="tagline">Premium Grooming, Redefined</p>
+        <div class="footer-social">
+          <a href="#" data-social="instagram" aria-label="Instagram" target="_blank" rel="noopener"></a>
+          <a href="#" data-social="facebook" aria-label="Facebook" target="_blank" rel="noopener"></a>
+          <a href="#" data-social="youtube" aria-label="YouTube" target="_blank" rel="noopener"></a>
+          <a href="#" data-social="whatsapp" aria-label="WhatsApp" target="_blank" rel="noopener"></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <a href="gallery.html">Haircuts</a>
+        <a href="services.html">Services</a>
+        <a href="booking.html">Book Appointment</a>
+        <a href="favorites.html">Favorites</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="about.html">About Us</a>
+        <a href="contact.html">Contact</a>
+        <a href="faq.html">FAQ</a>
+        <a href="admin/login.html">Admin Login</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <a data-field="phone-href"><span data-field="phone">+91 98765 43210</span></a>
+        <a data-field="email-href"><span data-field="email">hello@stylehub.example</span></a>
+        <span style="display:block;padding-block:6px;font-size:var(--fs-sm);color:rgba(255,255,255,0.55)" data-field="address">Address</span>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span data-year></span> Style Hub. All rights reserved.</span>
+      <span><a href="privacy-policy.html">Privacy</a> &middot; <a href="terms.html">Terms</a> &middot; <a href="disclaimer.html">Disclaimer</a> &middot; <a href="cookie-policy.html">Cookies</a></span>
+    </div>
+  </div>
+</footer>
+
+<button class="back-to-top" aria-label="Back to top"></button>
+
+<script type="module">
+  import { initLayout, fetchCollection, qs } from "./js/main.js";
+  import { styleCardHTML, reviewCardHTML, skeletonCards, emptyState } from "./js/render.js";
+  const featuredGrid = qs("#featured-grid");
+  const trendingGrid = qs("#trending-grid");
+  const popularGrid = qs("#popular-grid");
+  const reviewsGrid = qs("#reviews-grid");
+  [featuredGrid, trendingGrid, popularGrid].forEach(g => g.innerHTML = skeletonCards(4));
+  reviewsGrid.innerHTML = skeletonCards(3);
+
+  initLayout().then(async () => {
+    try {
+      const haircuts = await fetchCollection("haircuts");
+      const featured = haircuts.filter(h => h.featured);
+      const trending = haircuts.filter(h => h.trending);
+      const popular = haircuts.filter(h => h.popular);
+
+      featuredGrid.innerHTML = featured.length ? featured.slice(0, 4).map(styleCardHTML).join("") : emptyState("No featured styles yet", "Check back soon — our barbers are curating this week's picks.");
+      trendingGrid.innerHTML = trending.length ? trending.slice(0, 4).map(styleCardHTML).join("") : emptyState("Nothing trending yet", "Trending styles will appear here as customers book.");
+      popularGrid.innerHTML = popular.length ? popular.slice(0, 4).map(styleCardHTML).join("") : emptyState("No popular cuts yet", "Today's most booked styles will show up here.");
+    } catch (err) {
+      [featuredGrid, trendingGrid, popularGrid].forEach(g => g.innerHTML = emptyState("Couldn't load haircuts", "Please refresh the page.", "x"));
+    }
+
+    try {
+      const reviews = await fetchCollection("reviews");
+      reviewsGrid.innerHTML = reviews.length ? reviews.slice(0, 3).map(reviewCardHTML).join("") : emptyState("No reviews yet", "Be the first to share your experience after your visit.");
+    } catch {
+      reviewsGrid.innerHTML = emptyState("Couldn't load reviews", "Please refresh the page.", "x");
+    }
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Haircuts Gallery — Style Hub</title>
+<meta name="description" content="Browse every haircut style at Style Hub — fades, crops, pompadours, beard styles and more — with prices and estimated time.">
+<meta name="theme-color" content="#000000">
+<meta property="og:title" content="Haircuts Gallery — Style Hub">
+<meta property="og:description" content="Browse every haircut style at Style Hub with prices and estimated time.">
+<meta property="og:image" content="assets/images/hero-banner.jpg">
+<link rel="icon" href="assets/icons/icon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/responsive.css">
+<link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to content</a>
+<div class="announce-bar" data-announcement hidden></div>
+
+<header class="navbar">
+  <div class="container">
+    <a href="index.html" class="brand"><img src="assets/logo.svg" alt="Style Hub logo" width="34" height="34"><span>Style Hub</span></a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="index.html">Home</a>
+      <a href="gallery.html" aria-current="page">Haircuts</a>
+      <a href="services.html">Services</a>
+      <a href="booking.html">Book Now</a>
+      <a href="favorites.html">Favorites</a>
+      <a href="contact.html">Contact</a>
+      <a href="about.html">About</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="theme-toggle" aria-label="Switch to light mode"></button>
+      <a href="favorites.html" class="icon-btn" aria-label="View favorites" id="nav-fav-btn"></a>
+      <a href="booking.html" class="btn btn-primary btn-sm">Book Appointment</a>
+      <button class="nav-burger" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="mobile-panel">
+  <a href="index.html">Home</a>
+  <a href="gallery.html">Haircuts</a>
+  <a href="services.html">Services</a>
+  <a href="booking.html">Book Now</a>
+  <a href="favorites.html">Favorites</a>
+  <a href="contact.html">Contact</a>
+  <a href="about.html">About</a>
+  <a href="admin/login.html" style="font-size:1rem;color:var(--text-muted)">Admin Login</a>
+</div>
+
+<main id="main">
+  <section class="section--tight section" style="padding-top:calc(var(--nav-h) + 48px)">
+    <div class="container">
+      <div class="section-head" data-reveal="up">
+        <span class="eyebrow">The Full Collection</span>
+        <h1 class="h2">Haircut Gallery</h1>
+        <span class="razor"></span>
+        <p class="lead mt-4">Every style we cut, with pricing and estimated time — filter, search, and save your favorites.</p>
+      </div>
+
+      <div class="filter-bar" data-reveal="up">
+        <div class="search-box">
+          <span id="search-icon"></span>
+          <input type="search" id="search-input" placeholder="Search a style — e.g. skin fade" aria-label="Search haircuts">
+        </div>
+        <select class="select-mini" id="sort-select" aria-label="Sort by">
+          <option value="order">Sort: Featured</option>
+          <option value="price-asc">Price: Low to High</option>
+          <option value="price-desc">Price: High to Low</option>
+          <option value="time-asc">Time: Shortest First</option>
+          <option value="name-asc">Name: A–Z</option>
+        </select>
+        <select class="select-mini" id="price-select" aria-label="Filter by price">
+          <option value="">Any Price</option>
+          <option value="0-200">Under ₹200</option>
+          <option value="200-300">₹200 – ₹300</option>
+          <option value="300-9999">₹300+</option>
+        </select>
+        <select class="select-mini" id="time-select" aria-label="Filter by time">
+          <option value="">Any Duration</option>
+          <option value="0-20">Under 20 min</option>
+          <option value="20-35">20 – 35 min</option>
+          <option value="35-999">35 min+</option>
+        </select>
+      </div>
+
+      <div class="chip-group mb-5" id="category-chips" data-reveal="up" aria-label="Filter by category"></div>
+
+      <p class="muted" id="results-count" style="font-size:var(--fs-xs); margin-bottom:16px;"></p>
+
+      <div class="grid grid-4" id="gallery-grid" data-reveal-group></div>
+
+      <div class="disclaimer-box mt-6" data-reveal="up">
+        <strong>A quick note on these photos:</strong>
+        <p class="mt-3" data-field="disclaimer" style="margin:0"></p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="brand"><img src="assets/logo.svg" alt="Style Hub logo" width="36" height="36" style="height:36px;width:auto"><span style="color:#fff">Style Hub</span></a>
+        <p data-field="tagline">Premium Grooming, Redefined</p>
+        <div class="footer-social">
+          <a href="#" data-social="instagram" aria-label="Instagram" target="_blank" rel="noopener"></a>
+          <a href="#" data-social="facebook" aria-label="Facebook" target="_blank" rel="noopener"></a>
+          <a href="#" data-social="youtube" aria-label="YouTube" target="_blank" rel="noopener"></a>
+          <a href="#" data-social="whatsapp" aria-label="WhatsApp" target="_blank" rel="noopener"></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <a href="gallery.html">Haircuts</a>
+        <a href="services.html">Services</a>
+        <a href="booking.html">Book Appointment</a>
+        <a href="favorites.html">Favorites</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="about.html">About Us</a>
+        <a href="contact.html">Contact</a>
+        <a href="faq.html">FAQ</a>
+        <a href="admin/login.html">Admin Login</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <a data-field="phone-href"><span data-field="phone">+91 98765 43210</span></a>
+        <a data-field="email-href"><span data-field="email">hello@stylehub.example</span></a>
+        <span style="display:block;padding-block:6px;font-size:var(--fs-sm);color:rgba(255,255,255,0.55)" data-field="address">Address</span>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span data-year></span> Style Hub. All rights reserved.</span>
+      <span><a href="privacy-policy.html">Privacy</a> &middot; <a href="terms.html">Terms</a> &middot; <a href="disclaimer.html">Disclaimer</a> &middot; <a href="cookie-policy.html">Cookies</a></span>
+    </div>
+  </div>
+</footer>
+<button class="back-to-top" aria-label="Back to top"></button>
+
+<script type="module" src="js/gallery.js"></script>
+</body>
+</html>

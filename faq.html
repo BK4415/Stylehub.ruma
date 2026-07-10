@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FAQ — Style Hub</title>
+<meta name="description" content="Frequently asked questions about booking, pricing, and visiting Style Hub.">
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="assets/icons/icon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/responsive.css">
+<link rel="stylesheet" href="css/animations.css">
+<style>
+  .faq-item{ border-bottom:1px solid var(--border-glass); padding:var(--sp-5) 0; }
+  .faq-item summary{ cursor:pointer; font-weight:700; font-family:var(--font-display); font-size:var(--fs-md); list-style:none; display:flex; justify-content:space-between; align-items:center; gap:var(--sp-3); }
+  .faq-item summary::-webkit-details-marker{ display:none; }
+  .faq-item summary::after{ content:"+"; font-size:1.4rem; color:var(--accent); transition: transform var(--dur-fast); }
+  .faq-item[open] summary::after{ transform: rotate(45deg); }
+  .faq-item p{ color:var(--text-secondary); margin-top:var(--sp-3); }
+</style>
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to content</a>
+<div class="announce-bar" data-announcement hidden></div>
+
+<header class="navbar">
+  <div class="container">
+    <a href="index.html" class="brand"><img src="assets/logo.svg" alt="Style Hub logo" width="34" height="34"><span>Style Hub</span></a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="index.html">Home</a>
+      <a href="gallery.html">Haircuts</a>
+      <a href="services.html">Services</a>
+      <a href="booking.html">Book Now</a>
+      <a href="favorites.html">Favorites</a>
+      <a href="contact.html">Contact</a>
+      <a href="about.html">About</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="theme-toggle" aria-label="Switch to light mode"></button>
+      <a href="favorites.html" class="icon-btn" aria-label="View favorites" id="nav-fav-btn"></a>
+      <a href="booking.html" class="btn btn-primary btn-sm">Book Appointment</a>
+      <button class="nav-burger" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="mobile-panel">
+  <a href="index.html">Home</a>
+  <a href="gallery.html">Haircuts</a>
+  <a href="services.html">Services</a>
+  <a href="booking.html">Book Now</a>
+  <a href="favorites.html">Favorites</a>
+  <a href="contact.html">Contact</a>
+  <a href="about.html">About</a>
+  <a href="admin/login.html" style="font-size:1rem;color:var(--text-muted)">Admin Login</a>
+</div>
+
+<main id="main">
+  <section class="section" style="padding-top:calc(var(--nav-h) + 48px)">
+    <div class="container">
+      <div class="section-head section-head--center" data-reveal="up">
+        <span class="eyebrow">Good To Know</span>
+        <h1 class="h2">Frequently Asked Questions</h1>
+        <span class="razor"></span>
+      </div>
+      <div class="prose" data-reveal="up">
+        <details class="faq-item" open>
+          <summary>Do I need an account to book?</summary>
+          <p>You can browse haircuts and services as a guest, but you'll need to create a free account before your first booking is confirmed. This lets you track your appointments and favorites.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Can I choose a specific barber?</summary>
+          <p>Yes — the booking form lets you pick between our barbers based on availability for your chosen date and time.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What if I need to cancel or reschedule?</summary>
+          <p>You can cancel or reschedule from your account up to 2 hours before your appointment. See our Cancellation &amp; Rescheduling Policy for full details.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Will my haircut look exactly like the photo?</summary>
+          <p>Photos are a reference to help communicate the style you want. Your barber will consult with you to adapt it to your hair type and face shape. See our Hairstyle Disclaimer for details.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Do you accept walk-ins?</summary>
+          <p>Yes, walk-ins are welcome based on availability, though booking online guarantees your slot.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-bottom" style="border-top:none;padding-top:0;">
+      <span>© <span data-year></span> Style Hub. All rights reserved.</span>
+      <span><a href="privacy-policy.html">Privacy</a> &middot; <a href="terms.html">Terms</a></span>
+    </div>
+  </div>
+</footer>
+<button class="back-to-top" aria-label="Back to top"></button>
+
+<script type="module">
+  import { initLayout } from "./js/main.js";
+  initLayout();
+</script>
+</body>
+</html>

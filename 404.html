@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Page Not Found — Style Hub</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="assets/icons/icon-32.png" sizes="32x32">
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/responsive.css">
+<link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+<header class="navbar is-scrolled">
+  <div class="container">
+    <a href="index.html" class="brand"><img src="assets/logo.svg" alt="Style Hub logo" width="34" height="34"><span>Style Hub</span></a>
+    <a href="index.html" class="btn btn-primary btn-sm">Back to Home</a>
+  </div>
+</header>
+<main style="min-height:100vh; display:flex; align-items:center; justify-content:center; padding: var(--sp-6);">
+  <div class="text-center animate-fadeUp" style="max-width:520px;">
+    <p class="eyebrow" style="justify-content:center">Error 404</p>
+    <h1 class="h1 mt-4" style="font-size:clamp(4rem,14vw,7rem); line-height:1;">Lost the Fade.</h1>
+    <p class="lead mt-4" style="margin-inline:auto">The page you're looking for got trimmed away. Let's get you back to something sharp.</p>
+    <div class="hero-cta mt-6" style="justify-content:center">
+      <a href="index.html" class="btn btn-primary">Back to Home</a>
+      <a href="gallery.html" class="btn btn-outline">Browse Haircuts</a>
+    </div>
+  </div>
+</main>
+<script type="module">
+  import { initTheme } from "./js/main.js";
+  initTheme();
+</script>
+</body>
+</html>

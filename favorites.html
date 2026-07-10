@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Favorites — Style Hub</title>
+<meta name="description" content="Your saved haircut styles at Style Hub — book any of them again in one tap.">
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="assets/icons/icon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/responsive.css">
+<link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to content</a>
+<div class="announce-bar" data-announcement hidden></div>
+
+<header class="navbar">
+  <div class="container">
+    <a href="index.html" class="brand"><img src="assets/logo.svg" alt="Style Hub logo" width="34" height="34"><span>Style Hub</span></a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="index.html">Home</a>
+      <a href="gallery.html">Haircuts</a>
+      <a href="services.html">Services</a>
+      <a href="booking.html">Book Now</a>
+      <a href="favorites.html" aria-current="page">Favorites</a>
+      <a href="contact.html">Contact</a>
+      <a href="about.html">About</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="theme-toggle" aria-label="Switch to light mode"></button>
+      <a href="favorites.html" class="icon-btn" aria-label="View favorites" id="nav-fav-btn"></a>
+      <a href="booking.html" class="btn btn-primary btn-sm">Book Appointment</a>
+      <button class="nav-burger" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="mobile-panel">
+  <a href="index.html">Home</a>
+  <a href="gallery.html">Haircuts</a>
+  <a href="services.html">Services</a>
+  <a href="booking.html">Book Now</a>
+  <a href="favorites.html">Favorites</a>
+  <a href="contact.html">Contact</a>
+  <a href="about.html">About</a>
+  <a href="admin/login.html" style="font-size:1rem;color:var(--text-muted)">Admin Login</a>
+</div>
+
+<main id="main">
+  <section class="section" style="padding-top:calc(var(--nav-h) + 48px)">
+    <div class="container">
+      <div class="section-head" data-reveal="up">
+        <span class="eyebrow">Saved For Later</span>
+        <h1 class="h2">Your Favorites</h1>
+        <span class="razor"></span>
+        <p class="lead mt-4">Saved right on this device for now — create an account in a future update to sync favorites everywhere.</p>
+      </div>
+      <div class="grid grid-4" id="favorites-grid" data-reveal-group></div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-bottom" style="border-top:none;padding-top:0;">
+      <span>© <span data-year></span> Style Hub. All rights reserved.</span>
+      <span><a href="privacy-policy.html">Privacy</a> &middot; <a href="terms.html">Terms</a></span>
+    </div>
+  </div>
+</footer>
+<button class="back-to-top" aria-label="Back to top"></button>
+
+<script type="module" src="js/favorites.js"></script>
+</body>
+</html>
