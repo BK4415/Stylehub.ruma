@@ -1,0 +1,102 @@
+/* ==========================================================================
+   STYLE HUB — ANIMATIONS
+   Keyframes + scroll-reveal utility classes
+   ========================================================================== */
+
+@keyframes razorGrow{
+  to{ transform: scaleX(1); }
+}
+
+@keyframes rippleAnim{
+  to{ transform: scale(3.2); opacity:0; }
+}
+
+@keyframes shimmer{
+  100%{ transform: translateX(100%); }
+}
+
+@keyframes spin{
+  to{ transform: rotate(360deg); }
+}
+
+@keyframes scrollPulse{
+  0%, 100%{ opacity:0.2; transform: scaleY(0.6); }
+  50%{ opacity:1; transform: scaleY(1); }
+}
+
+@keyframes toastIn{
+  from{ opacity:0; transform: translateX(24px); }
+  to{ opacity:1; transform:none; }
+}
+
+@keyframes fadeUp{
+  from{ opacity:0; transform: translateY(28px); }
+  to{ opacity:1; transform:none; }
+}
+
+@keyframes fadeIn{
+  from{ opacity:0; }
+  to{ opacity:1; }
+}
+
+@keyframes scaleIn{
+  from{ opacity:0; transform: scale(0.92); }
+  to{ opacity:1; transform:none; }
+}
+
+@keyframes slideInRight{
+  from{ opacity:0; transform: translateX(40px); }
+  to{ opacity:1; transform:none; }
+}
+
+@keyframes slideInLeft{
+  from{ opacity:0; transform: translateX(-40px); }
+  to{ opacity:1; transform:none; }
+}
+
+@keyframes floatSlow{
+  0%, 100%{ transform: translateY(0); }
+  50%{ transform: translateY(-10px); }
+}
+
+@keyframes successPop{
+  0%{ transform: scale(0.5); opacity:0; }
+  60%{ transform: scale(1.08); opacity:1; }
+  100%{ transform: scale(1); }
+}
+
+/* --------------------------------------------------------------------------
+   Scroll-reveal utility — toggled by IntersectionObserver in main.js
+   Elements start hidden via [data-reveal], then get .is-visible added
+   -------------------------------------------------------------------------- */
+[data-reveal]{
+  opacity:0;
+  transition: opacity 0.8s var(--ease-luxury), transform 0.8s var(--ease-luxury);
+}
+[data-reveal="up"]{ transform: translateY(32px); }
+[data-reveal="left"]{ transform: translateX(-32px); }
+[data-reveal="right"]{ transform: translateX(32px); }
+[data-reveal="scale"]{ transform: scale(0.94); }
+[data-reveal].is-visible{ opacity:1; transform:none; }
+
+/* Stagger children of a revealed group */
+[data-reveal-group] > *{ opacity:0; transform: translateY(24px); transition: opacity 0.7s var(--ease-luxury), transform 0.7s var(--ease-luxury); }
+[data-reveal-group].is-visible > *{ opacity:1; transform:none; }
+[data-reveal-group].is-visible > *:nth-child(1){ transition-delay: 0.02s; }
+[data-reveal-group].is-visible > *:nth-child(2){ transition-delay: 0.09s; }
+[data-reveal-group].is-visible > *:nth-child(3){ transition-delay: 0.16s; }
+[data-reveal-group].is-visible > *:nth-child(4){ transition-delay: 0.23s; }
+[data-reveal-group].is-visible > *:nth-child(5){ transition-delay: 0.30s; }
+[data-reveal-group].is-visible > *:nth-child(6){ transition-delay: 0.37s; }
+[data-reveal-group].is-visible > *:nth-child(7){ transition-delay: 0.44s; }
+[data-reveal-group].is-visible > *:nth-child(8){ transition-delay: 0.51s; }
+
+.animate-fadeUp{ animation: fadeUp 0.8s var(--ease-luxury) both; }
+.animate-fadeIn{ animation: fadeIn 0.6s var(--ease-luxury) both; }
+.animate-scaleIn{ animation: scaleIn 0.5s var(--ease-luxury) both; }
+.animate-float{ animation: floatSlow 5s ease-in-out infinite; }
+.success-pop{ animation: successPop 0.6s var(--ease-luxury) both; }
+
+@media (prefers-reduced-motion: reduce){
+  [data-reveal], [data-reveal-group] > *{ opacity:1 !important; transform:none !important; transition:none !important; }
+}
